@@ -1,6 +1,29 @@
+from matplotlib.pyplot import *
+from networkx import *
 from tkinter import *
 from algorithms import *
 from data_structures import *
+matplotlib.use('TkAgg')
+
+
+# checks if the movie title inputted by the user is in the list of movies in "movies.txt"
+def check_movie(user_input):
+    file = open('movies.txt', 'r', errors='ignore')
+
+    while True:
+        movie_info = file.readline()
+
+        if not movie_info:
+            break
+        else:
+            movie_info = movie_info.split('\t')
+            movie = movie_info[0]
+
+            if movie == user_input:
+                return True
+
+    file.close()
+    return False
 
 
 # Main function
@@ -32,11 +55,23 @@ def main():
     textbox = Entry(window, width=40, font=('Times New Roman', 12))
     textbox.place(x=715, y=130)
 
+    # placeholder
+    outcome = Label(window, text='', font=('Times New Roman', 10), bg='#40a6c2')
+    outcome.place(x=713, y=155)
+
     # gets input from textbox
     def check_input(event=None):
         user_input = textbox.get()
-        # TODO:: validate input
         textbox.delete(0, 'end')
+
+        movie_found = check_movie(user_input)
+
+        if movie_found:
+            text = 'You entered \"' + user_input + '\"'
+            outcome.config(text=text, fg='black')
+        else:
+            text = 'Movie title not found. Please enter another movie title.'
+            outcome.config(text=text, fg='#cc3f14')
 
     textbox.bind('<Return>', check_input)
 
@@ -86,6 +121,20 @@ def main():
 
     submit_button = Button(window, text='Submit', font=('Times New Roman', 12))
     submit_button.place(x=847, y=580)
+
+    """graph = Graph()
+    graph.add_edge("a", "b", weight=0.6)
+    graph.add_edge("a", "c", weight=0.2)
+    graph.add_edge("c", "d", weight=0.1)
+    graph.add_edge("c", "e", weight=0.7)
+    graph.add_edge("c", "f", weight=0.9)
+    graph.add_edge("a", "d", weight=0.3)
+    pos = spring_layout(graph)
+    draw(graph, pos, node_color='red', node_size=600)
+    edge_labels = get_edge_attributes(graph, 'weight')
+    draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, label_pos=0.5)
+    axis('off')
+    show()"""
 
     window.mainloop()
 
