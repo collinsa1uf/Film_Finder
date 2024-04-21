@@ -163,12 +163,23 @@ def main():
     dropdown7 = OptionMenu(window, clicked_option7, *priorities7)
     dropdown7.place(x=890, y=510)
 
+    top_results = ['Top 5', 'Top 10', 'Top 25']
+    clicked_option8 = StringVar()
+    clicked_option8.set(top_results[0])
+    text8 = Label(window, text='Show results: ', font=('Times New Roman', 12), bg='#40a6c2', fg='black')
+    text8.place(x=620, y=560)
+    dropdown8 = OptionMenu(window, clicked_option8, *top_results)
+    dropdown8.place(x=625, y=590)
+
     def find_similar_movies():
         similar_movies = movie.find_similar_movies(clicked_option1, clicked_option2, clicked_option3, clicked_option4, clicked_option5, clicked_option6, clicked_option7)
         movie.set_similar_movies(similar_movies)
 
+        # TODO:: depending on if map or graph do ___
+
+
     submit_button = Button(window, text='Submit', font=('Times New Roman', 12), command=find_similar_movies)
-    submit_button.place(x=847, y=580)
+    submit_button.place(x=1075, y=590)
 
     window.mainloop()
 

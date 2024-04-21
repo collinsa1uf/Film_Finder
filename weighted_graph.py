@@ -1,7 +1,10 @@
+from movie import *
+
+
 class WeightedGraph:
     graph = ''
 
-    """graph = Graph()
+    """ graph = Graph()
         graph.add_edge("a", "b", weight=0.6)
         graph.add_edge("a", "c", weight=0.2)
         graph.add_edge("c", "d", weight=0.1)
