@@ -74,6 +74,28 @@ def main():
             successful_text = 'You entered \"' + user_input + '\"'
             outcome.config(text=successful_text, fg='black')
             movie.set_title(user_input)
+
+            file = open('movies.txt', 'r', errors='ignore')
+
+            while True:
+                movie_info = file.readline()
+
+                if not movie_info:
+                    break
+                else:
+                    movie_info = movie_info.split('\t')
+                    movie_title = movie_info[0]
+
+                    if movie_title == user_input:
+                        movie.set_year(movie_info[1])
+                        movie.set_rating(movie_info[2])
+                        movie.set_runtime(movie_info[3])
+                        movie.set_genre(movie_info[4])
+                        movie.set_rating(movie_info[5])
+                        movie.set_director(movie_info[6])
+                        movie.set_main_stars(movie_info[7])
+
+            file.close()
         else:
             unsuccessful_text = 'Movie title not found. Please enter another movie title.'
             outcome.config(text=unsuccessful_text, fg='#cc3f14')
@@ -141,22 +163,12 @@ def main():
     dropdown7 = OptionMenu(window, clicked_option7, *priorities7)
     dropdown7.place(x=890, y=510)
 
-    submit_button = Button(window, text='Submit', font=('Times New Roman', 12))
-    submit_button.place(x=847, y=580)
+    def find_similar_movies():
+        similar_movies = movie.find_similar_movies(clicked_option1, clicked_option2, clicked_option3, clicked_option4, clicked_option5, clicked_option6, clicked_option7)
+        movie.set_similar_movies(similar_movies)
 
-    """graph = Graph()
-    graph.add_edge("a", "b", weight=0.6)
-    graph.add_edge("a", "c", weight=0.2)
-    graph.add_edge("c", "d", weight=0.1)
-    graph.add_edge("c", "e", weight=0.7)
-    graph.add_edge("c", "f", weight=0.9)
-    graph.add_edge("a", "d", weight=0.3)
-    pos = spring_layout(graph)
-    draw(graph, pos, node_color='red', node_size=600)
-    edge_labels = get_edge_attributes(graph, 'weight')
-    draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, label_pos=0.5)
-    axis('off')
-    show()"""
+    submit_button = Button(window, text='Submit', font=('Times New Roman', 12), command=find_similar_movies)
+    submit_button.place(x=847, y=580)
 
     window.mainloop()
 
