@@ -1,10 +1,6 @@
-from matplotlib.pyplot import *
-from networkx import *
-from tkinter import *
 from movie import *
-from algorithms import *
-from data_structures import *
-matplotlib.use('TkAgg')
+from tkinter import *
+from weighted_graph import *
 
 
 # checks if the movie title inputted by the user is in the list of movies in "movies.txt"
@@ -172,11 +168,16 @@ def main():
     dropdown8.place(x=625, y=590)
 
     def find_similar_movies():
-        similar_movies = movie.find_similar_movies(clicked_option1, clicked_option2, clicked_option3, clicked_option4, clicked_option5, clicked_option6, clicked_option7)
+        # finds the rank of all movies based on priorities to determine which is most similar to inputted movie
+        similar_movies = movie.find_similar_movies(clicked_option1.get(), clicked_option2.get(), clicked_option3.get(), clicked_option4.get(), clicked_option5.get(), clicked_option6.get(), clicked_option7.get())
         movie.set_similar_movies(similar_movies)
 
-        # TODO:: depending on if map or graph do ___
+        # TODO:: maps output
 
+        # weighted graph output showing similar movies to inputted movie
+        weighted_graph = WeightedGraph()
+        weighted_graph.create_graph(movie, similar_movies)
+        weighted_graph.output_graph(clicked_option8)
 
     submit_button = Button(window, text='Submit', font=('Times New Roman', 12), command=find_similar_movies)
     submit_button.place(x=1075, y=590)

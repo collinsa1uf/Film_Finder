@@ -47,6 +47,9 @@ class Movie:
     def get_title(self):
         return self.title
 
+    def get_rank(self):
+        return self.rank
+
     def find_similar_movies(self, c1, c2, c3, c4, c5, c6, c7):
         movie_list = []
 
