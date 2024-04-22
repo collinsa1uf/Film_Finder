@@ -35,8 +35,6 @@ class WeightedGraph:
                     break
             num += 1
 
-        print(len(top_similar_vertices))
-
         # outputs graph with top #_ of similar movies extending from inputted movie vertex
         for v in top_similar_vertices:
             graph.add_edge(v[0].get_title(), v[1].get_title(), weight=v[2])

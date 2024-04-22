@@ -163,24 +163,42 @@ def main():
     clicked_option8 = StringVar()
     clicked_option8.set(top_results[0])
     text8 = Label(window, text='Show results: ', font=('Times New Roman', 12), bg='#40a6c2', fg='black')
-    text8.place(x=620, y=560)
+    text8.place(x=630, y=550)
     dropdown8 = OptionMenu(window, clicked_option8, *top_results)
-    dropdown8.place(x=625, y=590)
+    dropdown8.place(x=635, y=580)
+
+    # placeholder
+    outcome2 = Label(window, text='', font=('Times New Roman', 10), bg='#40a6c2')
+    outcome2.place(x=1023, y=613)
 
     def find_similar_movies():
-        # finds the rank of all movies based on priorities to determine which is most similar to inputted movie
-        similar_movies = movie.find_similar_movies(clicked_option1.get(), clicked_option2.get(), clicked_option3.get(), clicked_option4.get(), clicked_option5.get(), clicked_option6.get(), clicked_option7.get())
-        movie.set_similar_movies(similar_movies)
+        # used to verify that there is some input
+        one_priority = True
 
-        # TODO:: maps output
+        if clicked_option1.get() == 'None' and clicked_option2.get() == 'None' and clicked_option3.get() == 'None' and clicked_option4.get() == 'None' and clicked_option5.get() == 'None' and clicked_option6.get() == 'None' and clicked_option7.get() == 'None':
+            one_priority = False
 
-        # weighted graph output showing similar movies to inputted movie
-        weighted_graph = WeightedGraph()
-        weighted_graph.create_graph(movie, similar_movies)
-        weighted_graph.output_graph(clicked_option8.get())
+        if movie.get_title() != '' and one_priority:
+            outcome2.config(text='')
+
+            # finds the rank of all movies based on priorities to determine which is most similar to inputted movie
+            similar_movies = movie.find_similar_movies(clicked_option1.get(), clicked_option2.get(),
+                                                       clicked_option3.get(), clicked_option4.get(),
+                                                       clicked_option5.get(), clicked_option6.get(),
+                                                       clicked_option7.get())
+            movie.set_similar_movies(similar_movies)
+
+            # TODO:: maps output
+
+            # weighted graph output showing similar movies to inputted movie
+            weighted_graph = WeightedGraph()
+            weighted_graph.create_graph(movie, similar_movies)
+            weighted_graph.output_graph(clicked_option8.get())
+        else:
+            outcome2.config(text='Missing required input', fg='#cc3f14')
 
     submit_button = Button(window, text='Submit', font=('Times New Roman', 12), command=find_similar_movies)
-    submit_button.place(x=1075, y=590)
+    submit_button.place(x=1065, y=580)
 
     window.mainloop()
 
