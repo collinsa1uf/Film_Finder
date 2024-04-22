@@ -170,7 +170,6 @@ def main():
         similar_movies = movie.find_similar_movies(clicked_option1.get(), clicked_option2.get(), clicked_option3.get(), clicked_option4.get(), clicked_option5.get(), clicked_option6.get(), clicked_option7.get(), clicked_option8.get())
         movie.set_similar_movies(similar_movies)
 
-        print(clicked_option9)
         #hash map output showing similar movies to inputted movie
         movie_map = MovieMap()
         movie_map.create_map(similar_movies)

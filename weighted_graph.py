@@ -26,19 +26,15 @@ class WeightedGraph:
         while num < num_nodes:
             least_weight = 50.0
             for edge in self.weighted_graph:
-                print('here')
                 if edge[2] < least_weight:
                     least_weight = edge[2]
             for edge in self.weighted_graph:
                 if edge[2] == least_weight:
-                    print('here')
                     top_similar_vertices.append(edge)
                     self.weighted_graph.pop(self.weighted_graph.index(edge))
                     break
             num += 1
 
-        #for v in top_similar_vertices:
-            #print(v)
         # outputs graph with top #_ of similar movies extending from inputted movie vertex
         for v in top_similar_vertices:
             graph.add_edge(v[0].get_title(), v[1].get_title(), weight=v[2])
