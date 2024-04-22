@@ -177,7 +177,7 @@ def main():
         # weighted graph output showing similar movies to inputted movie
         weighted_graph = WeightedGraph()
         weighted_graph.create_graph(movie, similar_movies)
-        weighted_graph.output_graph(clicked_option8)
+        weighted_graph.output_graph(clicked_option8.get())
 
     submit_button = Button(window, text='Submit', font=('Times New Roman', 12), command=find_similar_movies)
     submit_button.place(x=1075, y=590)

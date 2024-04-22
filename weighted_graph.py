@@ -19,34 +19,42 @@ class WeightedGraph:
         elif clicked_option == 'Top 25':
             num_nodes = 25
 
-        # inputted movie vertex
-        graph.add_node(self.weighted_graph[0][0].get_title(), color='red')
-
         # find top #_ of most similar vertices
         top_similar_vertices = []
         num = 0
+
         while num < num_nodes:
-            max_rank = 0
-            for i in self.weighted_graph:
-                if self.weighted_graph[i][2] > max_rank:
-                    max_rank = self.weighted_graph[i][2]
-            for i in self.weighted_graph:
-                if self.weighted_graph[i][2] == max_rank:
-                    top_similar_vertices.append(self.weighted_graph[i])
-                    self.weighted_graph.pop(i)
-                    continue
+            least_weight = 50
+            for edge in self.weighted_graph:
+                if edge[2] < least_weight:
+                    least_weight = edge[2]
+            for edge in self.weighted_graph:
+                if edge[2] == least_weight:
+                    top_similar_vertices.append(edge)
+                    self.weighted_graph.pop(self.weighted_graph.index(edge))
+                    break
             num += 1
 
-        # Debug: print(len(top_similar_vertices))
+        print(len(top_similar_vertices))
 
         # outputs graph with top #_ of similar movies extending from inputted movie vertex
-        for i in top_similar_vertices:
-            graph.add_edge(top_similar_vertices[0].get_title(), top_similar_vertices[1].get_title(), weight=top_similar_vertices[2])
+        for v in top_similar_vertices:
+            graph.add_edge(v[0].get_title(), v[1].get_title(), weight=v[2])
 
         pos = spring_layout(graph)
-        draw(graph, pos, node_color='red', node_size=600)
         edge_labels = get_edge_attributes(graph, 'weight')
+        node_list = list(graph.nodes)
+        node_list.pop(0)
+
+        draw_networkx_nodes(graph, pos, node_size=500, nodelist=[self.weighted_graph[0][0].get_title()], node_color='red')
+        draw_networkx_nodes(graph, pos, node_size=500, nodelist=node_list)
+        draw_networkx_edges(graph, pos, alpha=0.5)
+        draw_networkx_labels(graph, pos=pos, font_size=10)
         draw_networkx_edge_labels(graph, pos=pos, edge_labels=edge_labels, label_pos=0.5)
+
+        axis = plt.gca()
+        axis.margins(0.25)
+        plt.tight_layout()
         plt.axis('off')
         plt.show()
 
@@ -57,14 +65,12 @@ class WeightedGraph:
         for m in similar_movies:
             if m.get_rank() == 0:
                 continue
+            elif m.get_title() == movie.get_title():
+                continue
             else:
                 vertices.append(m)
 
-        edge = []
-
         for v in vertices:
-            edge.append(movie)
-            edge.append(v)
-            edge.append(1 / v.get_rank())
+            edge = [movie, v, round((1.0 / v.get_rank()) * 10, 2)]
 
             self.weighted_graph.append(edge)
