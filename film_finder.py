@@ -97,7 +97,7 @@ def main():
     clicked_option1 = StringVar()
     clicked_option1.set(priorities1[0])
     text1 = Label(window, text='Rating   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text1.place(x=807, y=270)
+    text1.place(x=800, y=270)
     dropdown1 = OptionMenu(window, clicked_option1, *priorities1)
     dropdown1.place(x=890, y=270)
 
@@ -105,7 +105,7 @@ def main():
     clicked_option2 = StringVar()
     clicked_option2.set(priorities2[0])
     text2 = Label(window, text='Genre   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text2.place(x=810, y=310)
+    text2.place(x=805, y=310)
     dropdown2 = OptionMenu(window, clicked_option2, *priorities2)
     dropdown2.place(x=890, y=310)
 
@@ -113,7 +113,7 @@ def main():
     clicked_option3 = StringVar()
     clicked_option3.set(priorities3[0])
     text3 = Label(window, text='Year   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text3.place(x=818, y=350)
+    text3.place(x=815, y=350)
     dropdown3 = OptionMenu(window, clicked_option3, *priorities3)
     dropdown3.place(x=890, y=350)
 
@@ -121,7 +121,7 @@ def main():
     clicked_option4 = StringVar()
     clicked_option4.set(priorities4[0])
     text4 = Label(window, text='Reviews   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text4.place(x=794, y=390)
+    text4.place(x=784, y=390)
     dropdown4 = OptionMenu(window, clicked_option4, *priorities4)
     dropdown4.place(x=890, y=390)
 
@@ -129,7 +129,7 @@ def main():
     clicked_option5 = StringVar()
     clicked_option5.set(priorities5[0])
     text5 = Label(window, text='Director   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text5.place(x=796, y=430)
+    text5.place(x=785, y=430)
     dropdown5 = OptionMenu(window, clicked_option5, *priorities5)
     dropdown5.place(x=890, y=430)
 
@@ -137,7 +137,7 @@ def main():
     clicked_option6 = StringVar()
     clicked_option6.set(priorities6[0])
     text6 = Label(window, text='Lead Star   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text6.place(x=787, y=470)
+    text6.place(x=777, y=470)
     dropdown6 = OptionMenu(window, clicked_option6, *priorities6)
     dropdown6.place(x=890, y=470)
 
@@ -145,7 +145,7 @@ def main():
     clicked_option7 = StringVar()
     clicked_option7.set(priorities7[0])
     text7 = Label(window, text='Country   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text7.place(x=796, y=510)
+    text7.place(x=787, y=510)
     dropdown7 = OptionMenu(window, clicked_option7, *priorities7)
     dropdown7.place(x=890, y=510)
 
@@ -153,7 +153,7 @@ def main():
     clicked_option8 = StringVar()
     clicked_option8.set(priorities8[0])
     text8 = Label(window, text='Runtime   -', font=('Times New Roman', 16), bg='#40a6c2', fg='black')
-    text8.place(x=796, y=550)
+    text8.place(x=783, y=550)
     dropdown8 = OptionMenu(window, clicked_option8, *priorities8)
     dropdown8.place(x=890, y=550)
 
@@ -161,27 +161,45 @@ def main():
     clicked_option9 = StringVar()
     clicked_option9.set(top_results[0])
     text9 = Label(window, text='Show results: ', font=('Times New Roman', 12), bg='#40a6c2', fg='black')
-    text9.place(x=620, y=560)
+    text9.place(x=630, y=550)
     dropdown9 = OptionMenu(window, clicked_option9, *top_results)
-    dropdown9.place(x=625, y=590)
+    dropdown9.place(x=635, y=580)
+
+    # placeholder
+    outcome2 = Label(window, text='', font=('Times New Roman', 10), bg='#40a6c2')
+    outcome2.place(x=1023, y=613)
 
     def find_similar_movies():
-        # finds the rank of all movies based on priorities to determine which is most similar to inputted movie
-        similar_movies = movie.find_similar_movies(clicked_option1.get(), clicked_option2.get(), clicked_option3.get(), clicked_option4.get(), clicked_option5.get(), clicked_option6.get(), clicked_option7.get(), clicked_option8.get())
-        movie.set_similar_movies(similar_movies)
+        # used to verify that there is some input
+        one_priority = True
 
-        #hash map output showing similar movies to inputted movie
-        movie_map = MovieMap()
-        movie_map.create_map(similar_movies)
-        movie_map.output_map(clicked_option9.get())
+        if clicked_option1.get() == 'None' and clicked_option2.get() == 'None' and clicked_option3.get() == 'None' and clicked_option4.get() == 'None' and clicked_option5.get() == 'None' and clicked_option6.get() == 'None' and clicked_option7.get() == 'None' and clicked_option8.get() == 'None':
+            one_priority = False
 
-        # weighted graph output showing similar movies to inputted movie
-        weighted_graph = WeightedGraph()
-        weighted_graph.create_graph(movie, similar_movies)
-        weighted_graph.output_graph(clicked_option9.get())
+        if movie.get_title() != '' and one_priority:
+            outcome2.config(text='')
+
+            # finds the rank of all movies based on priorities to determine which is most similar to inputted movie
+            similar_movies = movie.find_similar_movies(clicked_option1.get(), clicked_option2.get(),
+                                                       clicked_option3.get(), clicked_option4.get(),
+                                                       clicked_option5.get(), clicked_option6.get(),
+                                                       clicked_option7.get(), clicked_option8.get())
+            movie.set_similar_movies(similar_movies)
+
+            # hash map output showing similar movies to inputted movie
+            movie_map = MovieMap()
+            movie_map.create_map(similar_movies)
+            movie_map.output_map(clicked_option9.get())
+
+            # weighted graph output showing similar movies to inputted movie
+            weighted_graph = WeightedGraph()
+            weighted_graph.create_graph(movie, similar_movies)
+            weighted_graph.output_graph(clicked_option9.get())
+        else:
+            outcome2.config(text='Missing required input', fg='#cc3f14')
 
     submit_button = Button(window, text='Submit', font=('Times New Roman', 12), command=find_similar_movies)
-    submit_button.place(x=1075, y=590)
+    submit_button.place(x=1065, y=580)
 
     window.mainloop()
 
