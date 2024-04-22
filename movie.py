@@ -1,20 +1,26 @@
+import csv
+
 class Movie:
     # constructor
     def __init__(self):
         self.title = ''
+        self.rating = ''
         self.genre = ''
         self.year = ''
-        self.runtime = ''
-        self.main_stars = ''
-        self.director = ''
         self.reviews = ''
-        self.rating = ''
-        self.rank = -1
+        self.director = ''
+        self.lead_star = ''
+        self.country = ''
+        self.runtime = ''
+        self.rank = 0.0
         self.similar_movies = []
 
     # mutator methods
     def set_title(self, title):
         self.title = title
+
+    def set_rating(self, rating):
+        self.rating = rating
 
     def set_genre(self, genre):
         self.genre = genre
@@ -22,20 +28,20 @@ class Movie:
     def set_year(self, year):
         self.year = year
 
-    def set_runtime(self, runtime):
-        self.runtime = runtime
-
-    def set_main_stars(self, main_stars):
-        self.main_stars = main_stars
+    def set_reviews(self, reviews):
+        self.reviews = reviews
 
     def set_director(self, director):
         self.director = director
 
-    def set_reviews(self, reviews):
-        self.reviews = reviews
+    def set_lead_star(self, lead_star):
+        self.lead_star = lead_star
 
-    def set_rating(self, rating):
-        self.rating = rating
+    def set_country(self, country):
+        self.country = country
+
+    def set_runtime(self, runtime):
+        self.runtime = runtime
 
     def set_rank(self, rank):
         self.rank = rank
@@ -50,149 +56,94 @@ class Movie:
     def get_rank(self):
         return self.rank
 
-    def find_similar_movies(self, c1, c2, c3, c4, c5, c6, c7):
+    def find_similar_movies(self, c1, c2, c3, c4, c5, c6, c7, c8):
+        normalizer = 0.0
+        if c1 != 'None':
+            normalizer += float(int(c1))
+        if c2 != 'None':
+            normalizer += float(int(c2))
+        if c3 != 'None':
+            normalizer += float(int(c3))
+        if c4 != 'None':
+            normalizer += float(int(c4))
+        if c5 != 'None':
+            normalizer += float(int(c5))
+        if c6 != 'None':
+            normalizer += float(int(c6))
+        if c7 != 'None':
+            normalizer += float(int(c7))
+        if c8 != 'None':
+            normalizer += float(int(c8))
+
+        if c1 != 'None':
+            c1 = float(int(c1))/normalizer
+        if c2 != 'None':
+            c2 = float(int(c2))/normalizer
+        if c3 != 'None':
+            c3 = float(int(c3))/normalizer
+        if c4 != 'None':
+            c4 = float(int(c4))/normalizer
+        if c5 != 'None':
+            c5 = float(int(c5))/normalizer
+        if c6 != 'None':
+            c6 = float(int(c6))/normalizer
+        if c7 != 'None':
+            c7 = float(int(c7))/normalizer
+        if c8 != 'None':
+            c8 = float(int(c8))/normalizer
+
         movie_list = []
 
-        file = open('movies.txt', 'r', errors='ignore')
+        with open('movies.csv', newline='', encoding='utf-8') as db:
 
-        while True:
-            movie_info = file.readline()
+            read = csv.reader(db)
 
-            if not movie_info:
-                break
-            else:
-                movie_info = movie_info.split('\t')
-
+            for movie_info in read:
+                if movie_info[0] == self.title:
+                    continue
                 title = movie_info[0]
-                year = movie_info[1]
-                rating = movie_info[2]
-                runtime = movie_info[3]
-                genre = movie_info[4]
+                rating = movie_info[1]
+                genre = movie_info[2]
+                year = movie_info[3]
                 reviews = movie_info[5]
-                director = movie_info[6]
-                main_stars = movie_info[7]
-                rank = 0
+                director = movie_info[7]
+                lead_star = movie_info[9]
+                country = movie_info[10]
+                runtime = movie_info[14]
+                rank = 0.0
 
-                # determines ranking for most similar movies
-                if self.genre == genre:
-                    if c1 == '1':
-                        rank += 7
-                    elif c1 == '2':
-                        rank += 6
-                    elif c1 == '3':
-                        rank += 5
-                    elif c1 == '4':
-                        rank += 4
-                    elif c1 == '5':
-                        rank += 3
-                    elif c1 == '6':
-                        rank += 2
-                    elif c1 == '7':
-                        rank += 1
-                if self.year == year:
-                    if c2 == '1':
-                        rank += 7
-                    elif c2 == '2':
-                        rank += 6
-                    elif c2 == '3':
-                        rank += 5
-                    elif c2 == '4':
-                        rank += 4
-                    elif c2 == '5':
-                        rank += 3
-                    elif c2 == '6':
-                        rank += 2
-                    elif c2 == '7':
-                        rank += 1
-                if self.runtime == runtime:
-                    if c3 == '1':
-                        rank += 7
-                    elif c3 == '2':
-                        rank += 6
-                    elif c3 == '3':
-                        rank += 5
-                    elif c3 == '4':
-                        rank += 4
-                    elif c3 == '5':
-                        rank += 3
-                    elif c3 == '6':
-                        rank += 2
-                    elif c3 == '7':
-                        rank += 1
-                if self.main_stars == main_stars:
-                    if c4 == '1':
-                        rank += 7
-                    elif c4 == '2':
-                        rank += 6
-                    elif c4 == '3':
-                        rank += 5
-                    elif c4 == '4':
-                        rank += 4
-                    elif c4 == '5':
-                        rank += 3
-                    elif c4 == '6':
-                        rank += 2
-                    elif c4 == '7':
-                        rank += 1
-                if self.director == director:
-                    if c5 == '1':
-                        rank += 7
-                    elif c5 == '2':
-                        rank += 6
-                    elif c5 == '3':
-                        rank += 5
-                    elif c5 == '4':
-                        rank += 4
-                    elif c5 == '5':
-                        rank += 3
-                    elif c5 == '6':
-                        rank += 2
-                    elif c5 == '7':
-                        rank += 1
-                if self.reviews == reviews:
-                    if c6 == '1':
-                        rank += 7
-                    elif c6 == '2':
-                        rank += 6
-                    elif c6 == '3':
-                        rank += 5
-                    elif c6 == '4':
-                        rank += 4
-                    elif c6 == '5':
-                        rank += 3
-                    elif c6 == '6':
-                        rank += 2
-                    elif c6 == '7':
-                        rank += 1
-                if self.rating == rating:
-                    if c7 == '1':
-                        rank += 7
-                    elif c7 == '2':
-                        rank += 6
-                    elif c7 == '3':
-                        rank += 5
-                    elif c7 == '4':
-                        rank += 4
-                    elif c7 == '5':
-                        rank += 3
-                    elif c7 == '6':
-                        rank += 2
-                    elif c7 == '7':
-                        rank += 1
+                if c1 != 'None' and self.rating == rating:
+                    rank += c1
+                if c2 != 'None' and self.genre == genre:
+                    rank += c2
+                if c3 != 'None' and self.year == year:
+                    rank += c3
+                if c4 != 'None' and reviews != '':
+                    norm_reviews = float(reviews) / 10.0
+                    rank += c4 * norm_reviews
+                if c5 != 'None' and self.director == director:
+                    rank += c5
+                if c6 != 'None' and self.lead_star == lead_star:
+                    rank += c6
+                if c7 != 'None' and self.country == country:
+                    rank += c7
+                if c8 != 'None' and runtime != '' and self.runtime != '':
+                    if int(float(self.runtime)) <= int(float(runtime)) + 15:
+                        if int(float(self.runtime)) >= int(float(runtime)) - 15:
+                            rank += c8
 
-            movie = Movie()
-            movie.set_title(title)
-            movie.set_year(year)
-            movie.set_rating(rating)
-            movie.set_runtime(runtime)
-            movie.set_genre(genre)
-            movie.set_rating(rating)
-            movie.set_director(director)
-            movie.set_main_stars(main_stars)
-            movie.set_rank(rank)
+                movie = Movie()
+                movie.set_title(title)
+                movie.set_rating(rating)
+                movie.set_genre(genre)
+                movie.set_year(year)
+                movie.set_reviews(reviews)
+                movie.set_director(director)
+                movie.set_lead_star(lead_star)
+                movie.set_country(country)
+                movie.set_runtime(runtime)
+                movie.set_rank(rank)
 
-            movie_list.append(movie)
+                movie_list.append(movie)
 
-        file.close()
-
-        return movie_list
+            return movie_list
